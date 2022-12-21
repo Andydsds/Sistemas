@@ -122,6 +122,7 @@ def openEulerWindow():
     Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
+    entrada_h.insert(2,1)    
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
     Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
@@ -132,6 +133,7 @@ def openEulerWindow():
     Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
+    entrada_xf.insert(1,1) #valor predeterminado
     entrada_xf.grid(row=5,column=2,pady=3,padx=4)
 
     enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
@@ -194,6 +196,7 @@ def openPtomedioWindow():
     Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
+    entrada_h.insert(2,1)  
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
     Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
@@ -204,6 +207,7 @@ def openPtomedioWindow():
     Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
+    entrada_xf.insert(1,1)
     entrada_xf.grid(row=5,column=2,pady=3,padx=4)
 
     enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
@@ -263,6 +267,7 @@ def openRungeWindow():
     Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
+    entrada_h.insert(2,1)
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
     Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
@@ -273,6 +278,7 @@ def openRungeWindow():
     Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
+    entrada_xf.insert(1,1)
     entrada_xf.grid(row=5,column=2,pady=3,padx=4)
 
     enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
