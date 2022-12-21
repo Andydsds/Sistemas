@@ -24,17 +24,17 @@ def euler(window,x_num,y_num,h,xi,xf,expresion): #cond. inicial x, y y tamañano
            # print(i,x_num,y_num)
             #Imprimir resultados
             #encabezado
-            encabezadoi=Label(window,text='i')
+            encabezadoi=Label(window,text='i',font=("Century gothic",10,"bold"),bg="powder blue")
             encabezadoi.grid(row=6, column=1,pady=5)
-            resultadosi=Label(window,text=i)
+            resultadosi=Label(window,text=i,font=("Century gothic",10),bg="powder blue")
             resultadosi.grid(row=i+6,column=1)
-            encabezadox=Label(window,text='x')
+            encabezadox=Label(window,text='x',font=("Century gothic",10,"bold"),bg="powder blue")
             encabezadox.grid(row=6,column=2,pady=5)
-            resultadosx=Label(window,text=x_num)
+            resultadosx=Label(window,text=x_num,font=("Century gothic",10),bg="powder blue")
             resultadosx.grid(row=i+6,column=2)
-            encabezadoy=Label(window,text='y')
+            encabezadoy=Label(window,text='y',font=("Century gothic",10,"bold"),bg="powder blue")
             encabezadoy.grid(row=6, column=3,pady=5)
-            resultadosy=Label(window,text=y_num)
+            resultadosy=Label(window,text=y_num,font=("Century gothic",10),bg="powder blue")
             resultadosy.grid(row=i+6,column=3)
 
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
@@ -83,7 +83,7 @@ def openEulerWindow():
    # ingr_dat.columnconfigure(1, weight=1)
    # ingr_dat.columnconfigure(1,weight=1)0
 
-    show_res=Frame(newWindow,bg='blue', width = 500, height=500, pady=3, padx=15)
+    show_res=Frame(newWindow,bg='powder blue', width = 500, height=500, pady=3, padx=15)
     show_res.grid(sticky=EW)
     for i in range(0,5):
         show_res.columnconfigure(i,weight=1)
@@ -96,41 +96,41 @@ def openEulerWindow():
         xinitial_value=float(xinitial.get())
         yinitial_value=float(yinitial.get())
         h_value=float(h.get())
-        print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
+        #print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
         xf_value=float(xf.get())
         xi_value=float(xi.get())
         print(euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data))
     
     
     Label(ingr_dat,  
-          text ="Ingrese la ecuación",width=20).grid(row=0,column=1,pady=3,padx=4)
+          text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
     funcion=StringVar()
     entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
     entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5')
     entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese el valor inicial de x" ).grid(row=1,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de x" ,font=("Century gothic",10),bg="powder blue").grid(row=1,column=1,pady=3,padx=4)
     xinitial=DoubleVar()
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y" ).grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="powder blue").grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese h",font=("Century gothic",10),bg="powder blue").grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
     entrada_h.insert(2,1)    
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xi",font=("Century gothic",10),bg="powder blue").grid(row=4,column=1,pady=3,padx=4)
     xi=DoubleVar()
     entrada_xi=Entry(ingr_dat,textvariable=xi,width=20)
     entrada_xi.grid(row=4,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xf",font=("Century gothic",10),bg="powder blue").grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
     entrada_xf.insert(1,1) #valor predeterminado
@@ -150,7 +150,7 @@ def openPtomedioWindow():
     newWindow.geometry("500x500") 
    # frame=Frame(newWindow).grid(row=10,bg='blue')
     #Funcion para el método de euler             
-    ingr_dat=Frame(newWindow,bg='powder blue', width = 500, height=500, pady=3, padx=15)
+    ingr_dat=Frame(newWindow,bg='PaleGreen1', width = 500, height=500, pady=3, padx=15)
     ingr_dat.grid(sticky=EW)
     for i in range(0,4):
         ingr_dat.columnconfigure(i,weight=1)
@@ -177,34 +177,34 @@ def openPtomedioWindow():
     
     
     Label(ingr_dat,  
-          text ="Ingrese la ecuación",width=20).grid(row=0,column=1,pady=3,padx=4)
+          text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="PaleGreen1").grid(row=0,column=1,pady=3,padx=4)
     funcion=StringVar()
     entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
     entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5')
     entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese el valor inicial de x" ).grid(row=1,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de x",font=("Century gothic",10),bg="PaleGreen1" ).grid(row=1,column=1,pady=3,padx=4)
     xinitial=DoubleVar()
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y" ).grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="PaleGreen1" ).grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese h",font=("Century gothic",10),bg="PaleGreen1" ).grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
     entrada_h.insert(2,1)  
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xi",font=("Century gothic",10),bg="PaleGreen1" ).grid(row=4,column=1,pady=3,padx=4)
     xi=DoubleVar()
     entrada_xi=Entry(ingr_dat,textvariable=xi,width=20)
     entrada_xi.grid(row=4,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xf",font=("Century gothic",10),bg="PaleGreen1").grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
     entrada_xf.insert(1,1)
@@ -221,7 +221,7 @@ def openRungeWindow():
     newWindow.geometry("500x500") 
    # frame=Frame(newWindow).grid(row=10,bg='blue')
     #Funcion para el método de euler             
-    ingr_dat=Frame(newWindow, width = 500, height=500, pady=3, padx=15)
+    ingr_dat=Frame(newWindow, bg="antique white", width = 500, height=500, pady=3, padx=15)
     ingr_dat.grid(sticky=EW)
     for i in range(0,4):
         ingr_dat.columnconfigure(i,weight=1)
@@ -241,41 +241,41 @@ def openRungeWindow():
         xinitial_value=float(xinitial.get())
         yinitial_value=float(yinitial.get())
         h_value=float(h.get())
-        print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
+      #  print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
         xf_value=float(xf.get())
         xi_value=float(xi.get())
         print(pto_medio(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data))
     
     
     Label(ingr_dat,  
-          text ="Ingrese la ecuación",width=20).grid(row=0,column=1,pady=3,padx=4)
+          text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="antique white").grid(row=0,column=1,pady=3,padx=4)
     funcion=StringVar()
     entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
     entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5')
     entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese el valor inicial de x" ).grid(row=1,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de x",font=("Century gothic",10),bg="antique white").grid(row=1,column=1,pady=3,padx=4)
     xinitial=DoubleVar()
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y" ).grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="antique white" ).grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
     
-    Label(ingr_dat, text="Ingrese h" ).grid(row=3,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese h" ,font=("Century gothic",10),bg="antique white").grid(row=3,column=1,pady=3,padx=4)
     h=DoubleVar()
     entrada_h=Entry(ingr_dat,textvariable=h,width=20)
     entrada_h.insert(2,1)
     entrada_h.grid(row=3,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xi" ).grid(row=4,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xi",font=("Century gothic",10),bg="antique white" ).grid(row=4,column=1,pady=3,padx=4)
     xi=DoubleVar()
     entrada_xi=Entry(ingr_dat,textvariable=xi,width=20)
     entrada_xi.grid(row=4,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese xf" ).grid(row=5,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese xf",font=("Century gothic",10),bg="antique white" ).grid(row=5,column=1,pady=3,padx=4)
     xf=DoubleVar()
     entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
     entrada_xf.insert(1,1)
@@ -303,3 +303,4 @@ botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWin
 botonPtomed.config(bg="snow",font=("Century gothic",10))
 botonPtomed.pack(pady=5)
 mainloop()
+
