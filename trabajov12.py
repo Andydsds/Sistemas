@@ -21,7 +21,7 @@ def euler(window,x_num,y_num,h,xi,xf,expresion): #cond. inicial x, y y tamañano
             x_num=x_num+h
             x_num=round(x_num,2)
             y_num=round(y_num,3)
-            print(i,x_num,y_num)
+           # print(i,x_num,y_num)
             #Imprimir resultados
             #encabezado
             encabezadoi=Label(window,text='i')
@@ -289,16 +289,17 @@ def openRungeWindow():
 label = Label(master, text ="Seleccionar un método") 
 label.config(fg="black",    # Color letras
              bg="pink",   # Fondo
-             font=("Verdana",12)
+             font=("Century gothic",15,"bold")
               )
-label.pack(pady=30)
+label.pack(pady=35)
 #creación de botones
 botonEuler=Button(master,text="Método de Euler",command=openEulerWindow)
-botonEuler.pack(pady=3)
+botonEuler.config(bg="snow",font=("Century gothic",10))
+botonEuler.pack(pady=5)
 botonRunge=Button(master,text="Método de Runge-Kutta",command=openRungeWindow)
-botonRunge.pack(pady=3)
+botonRunge.config(bg="snow",font=("Century gothic",10))
+botonRunge.pack(pady=5)
 botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWindow)
-botonPtomed.pack(pady=3)
+botonPtomed.config(bg="snow",font=("Century gothic",10))
+botonPtomed.pack(pady=5)
 mainloop()
-
-
