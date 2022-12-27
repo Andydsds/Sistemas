@@ -1,4 +1,5 @@
 from tkinter import * 
+from tkinter import ttk
 import sympy as sp
 import numpy as np
 from sympy import symbols, sympify
@@ -38,6 +39,26 @@ def euler(window,x_num,y_num,h,xi,xf,expresion): #cond. inicial x, y y tamañano
             resultadosy.grid(row=i+6,column=3)
 
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
+    #crear una vista de arbol y una barra de desplazamiento
+  treev = ttk.Treeview(window)
+  treev.pack(side ='left')
+
+  barra=ttk.Scrollbar(window,orient="vertical",command=treev.yview)
+  barra.pack(side ='left', fill ='x')
+  #configuracion del treeview
+  treev.configure(xscrollcommand = barra.set)
+  treev["columns"] = ("1", "2", "3")
+  treev['show'] = 'headings'
+
+  # Asignar el ancho y que esten centradas las columnas
+  treev.column("1", width = 90, anchor ='c')
+  treev.column("2", width = 90, anchor ='c')
+  treev.column("3", width = 90, anchor ='c')
+
+  treev.heading("1", text ="i")
+  treev.heading("2", text ="x")
+  treev.heading("3", text ="y")
+
   #Calculo de iteraciones
   nc=(xf-xi)/h
   nc=int(nc)
@@ -49,23 +70,10 @@ def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
     x_num=xm+h/2
     x_num=round(x_num, 2)
     y_num=round(y_num, 3)
-    print(i,x_num,y_num)
+    #print(i,x_num,y_num)
     #Imprimir resultados
     #encabezado
-    encabezadoi=Label(window,text='i')
-    encabezadoi.grid(row=6, column=1,pady=5)
-    resultadosi=Label(window,text=i)
-    resultadosi.grid(row=i+6,column=1)
-    encabezadox=Label(window,text='x')
-    encabezadox.grid(row=6,column=2,pady=5)
-    resultadosx=Label(window,text=x_num)
-    resultadosx.grid(row=i+6,column=2)
-    encabezadoy=Label(window,text='y')
-    encabezadoy.grid(row=6, column=3,pady=5)
-    resultadosy=Label(window,text=y_num)
-    resultadosy.grid(row=i+6,column=3)
-
-
+    treev.insert("",'end',values=(i,x_num,y_num))
 
 
 #Pestaña metodo euler
@@ -157,7 +165,7 @@ def openPtomedioWindow():
    # ingr_dat.columnconfigure(1, weight=1)
    # ingr_dat.columnconfigure(1,weight=1)
 
-    show_res=Frame(newWindow,bg='blue', width = 500, height=500, pady=3, padx=15)
+    show_res=Frame(newWindow,bg='PaleGreen1', width = 500, height=500, pady=3, padx=15)
     show_res.grid(sticky=EW)
     for i in range(0,5):
         show_res.columnconfigure(i,weight=1)
@@ -220,7 +228,7 @@ def openRungeWindow():
     newWindow.title("Método de Runge Kutta")     
     newWindow.geometry("500x500") 
    # frame=Frame(newWindow).grid(row=10,bg='blue')
-    #Funcion para el método de euler             
+    #Funcion para el método de punto medio             
     ingr_dat=Frame(newWindow, bg="antique white", width = 500, height=500, pady=3, padx=15)
     ingr_dat.grid(sticky=EW)
     for i in range(0,4):
@@ -303,4 +311,3 @@ botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWin
 botonPtomed.config(bg="snow",font=("Century gothic",10))
 botonPtomed.pack(pady=5)
 mainloop()
-
