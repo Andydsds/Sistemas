@@ -1,5 +1,6 @@
 from tkinter import * 
 from tkinter import ttk
+from tkinter import messagebox
 import sympy as sp
 import numpy as np
 from sympy import symbols, sympify
@@ -13,7 +14,30 @@ master.config(bg="pink") #cambiar color de fondo
 x = sp.Symbol('x')
 y = sp.Symbol('y')
 #método de Euler
-def euler(window,x_num,y_num,h,xi,xf,expresion): #cond. inicial x, y y tamañano de paso
+def euler(window,x_num,y_num,h,xi,xf,expresion): 
+    #crear una vista de arbol y una barra de desplazamiento
+    treev = ttk.Treeview(window)
+    treev.pack(side ='left')
+    #barra de desplazamiento
+    barra=ttk.Scrollbar(window,orient="vertical",command=treev.yview)
+    barra.pack(side ='left', fill ='x')
+    #configuracion del treeview
+    treev.configure(xscrollcommand = barra.set)
+    treev["columns"] = ("1", "2", "3") #Numero de columnas (i,x,y)
+    treev['show'] = 'headings'
+    # Asignar ancho de las columnas y centrar texto
+    treev.column("1", width = 90, anchor ='c')
+    treev.column("2", width = 90, anchor ='c')
+    treev.column("3", width = 90, anchor ='c')
+    #Titulo de encabezados
+    treev.heading("1", text ="i")
+    treev.heading("2", text ="x")
+    treev.heading("3", text ="y")
+    if (xf<xi):
+        messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
+    if (h<=0):
+        messagebox.showinfo(message="El valor de h tiene que ser positivo ", title="Error")
+    else:
         #Calculo de iteraciones
         nc=(xf-xi)/h
         nc=int(nc)
@@ -22,59 +46,46 @@ def euler(window,x_num,y_num,h,xi,xf,expresion): #cond. inicial x, y y tamañano
             x_num=x_num+h
             x_num=round(x_num,2)
             y_num=round(y_num,3)
-           # print(i,x_num,y_num)
             #Imprimir resultados
-            #encabezado
-            encabezadoi=Label(window,text='i',font=("Century gothic",10,"bold"),bg="powder blue")
-            encabezadoi.grid(row=6, column=1,pady=5)
-            resultadosi=Label(window,text=i,font=("Century gothic",10),bg="powder blue")
-            resultadosi.grid(row=i+6,column=1)
-            encabezadox=Label(window,text='x',font=("Century gothic",10,"bold"),bg="powder blue")
-            encabezadox.grid(row=6,column=2,pady=5)
-            resultadosx=Label(window,text=x_num,font=("Century gothic",10),bg="powder blue")
-            resultadosx.grid(row=i+6,column=2)
-            encabezadoy=Label(window,text='y',font=("Century gothic",10,"bold"),bg="powder blue")
-            encabezadoy.grid(row=6, column=3,pady=5)
-            resultadosy=Label(window,text=y_num,font=("Century gothic",10),bg="powder blue")
-            resultadosy.grid(row=i+6,column=3)
+            treev.insert("",'end',values=(i,x_num,y_num))
 
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
-    #crear una vista de arbol y una barra de desplazamiento
+  #crear una vista de arbol y una barra de desplazamiento
   treev = ttk.Treeview(window)
   treev.pack(side ='left')
-
+  #Creación de barra de desplazamiento
   barra=ttk.Scrollbar(window,orient="vertical",command=treev.yview)
   barra.pack(side ='left', fill ='x')
   #configuracion del treeview
   treev.configure(xscrollcommand = barra.set)
   treev["columns"] = ("1", "2", "3")
   treev['show'] = 'headings'
-
-  # Asignar el ancho y que esten centradas las columnas
+  # Asignar ancho de las columnas y centrar texto
   treev.column("1", width = 90, anchor ='c')
   treev.column("2", width = 90, anchor ='c')
   treev.column("3", width = 90, anchor ='c')
-
+  #Titulo de encabezados
   treev.heading("1", text ="i")
   treev.heading("2", text ="x")
   treev.heading("3", text ="y")
-
-  #Calculo de iteraciones
-  nc=(xf-xi)/h
-  nc=int(nc)
-  for i in range(1,nc+1): 
-   # dydx=(-2*(x**3))+12*(x**2)-(20*x)+8.5
-    ym=y_num+float(expresion.subs(x,x_num))*(h/2)
-    xm=x_num+h/2
-    y_num=ym+float(expresion.subs(x,xm))*h
-    x_num=xm+h/2
-    x_num=round(x_num, 2)
-    y_num=round(y_num, 3)
-    #print(i,x_num,y_num)
-    #Imprimir resultados
-    #encabezado
-    treev.insert("",'end',values=(i,x_num,y_num))
-
+  #Método
+  if (xf<xi):
+    messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
+  if (h<=0):
+    messagebox.showinfo(message="El valor de h tiene que ser positivo ", title="Error")
+  else:
+    #Calculo de iteraciones
+    nc=(xf-xi)/h
+    nc=int(nc)
+    for i in range(1,nc+1): 
+        ym=y_num+float(expresion.subs(x,x_num))*(h/2)
+        xm=x_num+h/2
+        y_num=ym+float(expresion.subs(x,xm))*h
+        x_num=xm+h/2
+        x_num=round(x_num, 2)
+        y_num=round(y_num, 3)
+        #Imprimir resultados
+        treev.insert("",'end',values=(i,x_num,y_num))
 
 #Pestaña metodo euler
 def openEulerWindow():  
@@ -178,7 +189,6 @@ def openPtomedioWindow():
         xinitial_value=float(xinitial.get())
         yinitial_value=float(yinitial.get())
         h_value=float(h.get())
-        print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
         xf_value=float(xf.get())
         xi_value=float(xi.get())
         print(pto_medio(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data))
