@@ -4,6 +4,9 @@ from tkinter import messagebox
 import sympy as sp
 import numpy as np
 from sympy import symbols, sympify
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #Posicionar la grafica
+
 #from tkinter.ttk import *
   
 master = Tk()  #Pestaña principal
@@ -13,8 +16,21 @@ master.config(bg="pink") #cambiar color de fondo
 
 x = sp.Symbol('x')
 y = sp.Symbol('y')
-#método de Euler
+#Leer cadena en caso de un numero y caracter juntos
+def leer_string(cadena):
+  lista=[]
+  for c in range(0,len(cadena)):
+    if (cadena[c].isalpha() & cadena[c-1].isnumeric()):
+      lista.append('*')
+      lista.append(cadena[c])
+    else:
+      lista.append(cadena[c])
+  cadena=''.join(lista)
+  return cadena
+
+#método de Euler y mostrar resultados
 def euler(window,x_num,y_num,h,xi,xf,expresion): 
+    #Mostrar los resultados como matriz con barra de de desplazamiento
     #crear una vista de arbol y una barra de desplazamiento
     treev = ttk.Treeview(window)
     treev.pack(side ='left')
@@ -48,7 +64,7 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
             y_num=round(y_num,3)
             #Imprimir resultados
             treev.insert("",'end',values=(i,x_num,y_num))
-
+#Método del punto medio y mostrar resultados
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
   #crear una vista de arbol y una barra de desplazamiento
   treev = ttk.Treeview(window)
@@ -87,31 +103,32 @@ def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
         #Imprimir resultados
         treev.insert("",'end',values=(i,x_num,y_num))
 
-#Pestaña metodo euler
+#Pestaña metodo euler e ingreso de datos 
 def openEulerWindow():  
 
     newWindow = Toplevel(master) #cambiar nombres
     newWindow.title("Método de Euler")     
     newWindow.geometry("500x500") 
-   # frame=Frame(newWindow).grid(row=10,bg='blue')
     #Funcion para el método de euler             
-    ingr_dat=Frame(newWindow,bg='powder blue', width = 500, height=500, pady=3, padx=15)
+    ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
     ingr_dat.grid(sticky=EW)
     for i in range(0,5):
         ingr_dat.columnconfigure(i,weight=1)
    # ingr_dat.columnconfigure(1, weight=1)
    # ingr_dat.columnconfigure(1,weight=1)0
 
-    show_res=Frame(newWindow,bg='powder blue', width = 500, height=500, pady=3, padx=15)
+    show_res=Frame(newWindow,bg='powder blue', pady=3, padx=15)
     show_res.grid(sticky=EW)
     for i in range(0,5):
         show_res.columnconfigure(i,weight=1)
-        #show_res.columnconfigure(1,weight=1)
-        #show_res.columnconfigure(2,weight=1)
-    def sendata():  #guardar la información que se ingresa
+
+    def sendata():  
+        #Obtener la información que se ingresa
         funcion_data=str(funcion.get()) 
-        funcion_data = sympify(funcion_data) #convertir la función en un objeto matemático 
-        print(funcion_data,type(funcion_data)) 
+        #Convertir string a un formato matemático
+        funcion_data=leer_string(funcion_data)
+        #convertir la función en un objeto matemático 
+        funcion_data = sympify(funcion_data) 
         xinitial_value=float(xinitial.get())
         yinitial_value=float(yinitial.get())
         h_value=float(h.get())
@@ -120,12 +137,12 @@ def openEulerWindow():
         xi_value=float(xi.get())
         print(euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data))
     
-    
+    #Ingreso de datos 
     Label(ingr_dat,  
           text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
     funcion=StringVar()
     entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
-    entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5')
+    entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5') #Valor
     entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
     
     Label(ingr_dat, text="Ingrese el valor inicial de x" ,font=("Century gothic",10),bg="powder blue").grid(row=1,column=1,pady=3,padx=4)
@@ -321,3 +338,6 @@ botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWin
 botonPtomed.config(bg="snow",font=("Century gothic",10))
 botonPtomed.pack(pady=5)
 mainloop()
+
+
+
