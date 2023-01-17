@@ -19,6 +19,7 @@ y = sp.Symbol('y')
 #Leer cadena en caso de un numero y caracter juntos
 def leer_string(cadena):
   lista=[]
+  cadena = cadena.replace("(","").replace(")","")
   for c in range(0,len(cadena)):
     if (cadena[c].isalpha() & cadena[c-1].isnumeric()):
       lista.append('*')
