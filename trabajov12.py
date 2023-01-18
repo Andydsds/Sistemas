@@ -5,12 +5,11 @@ import sympy as sp
 import numpy as np
 from sympy import symbols, sympify
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #Posicionar la grafica
-
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #Graficar
 #from tkinter.ttk import *
   
 master = Tk()  #Pestaña principal
-master.geometry("400x400")  #cambiar tamaño
+master.geometry("580x480")  #cambiar tamaño
 master.title("Calculadora numérica")
 master.config(bg="pink") #cambiar color de fondo 
 
@@ -19,7 +18,7 @@ y = sp.Symbol('y')
 #Leer cadena en caso de un numero y caracter juntos
 def leer_string(cadena):
   lista=[]
-  cadena = cadena.replace("(","").replace(")","")
+ # cadena = cadena.replace("(","").replace(")","") #Eliminar parentesis
   for c in range(0,len(cadena)):
     if (cadena[c].isalpha() & cadena[c-1].isnumeric()):
       lista.append('*')
@@ -50,6 +49,10 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
     treev.heading("1", text ="i")
     treev.heading("2", text ="x")
     treev.heading("3", text ="y")
+    figure = plt.Figure(figsize=(2.5,2.5), dpi=100)
+    ax = figure.add_subplot(111)
+    grafica=FigureCanvasTkAgg(figure, window)
+    grafica.get_tk_widget().pack()
     if (xf<xi):
         messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
     if (h<=0):
@@ -65,6 +68,13 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
             y_num=round(y_num,3)
             #Imprimir resultados
             treev.insert("",'end',values=(i,x_num,y_num))
+            #fig=plt.plot(x_num,y_num,'-ok')
+             #  grafica.draw()
+             #  grafica.get_tk_widget().pack(fill=BOTH, expand=True)
+            #grafica.get_tk_widget().pack()
+            ax.scatter(x_num, y_num)
+            grafica.draw()
+    #plt.plot(x_num,y_num,'-ok',ax=ax)
 #Método del punto medio y mostrar resultados
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
   #crear una vista de arbol y una barra de desplazamiento
@@ -107,9 +117,9 @@ def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
 #Pestaña metodo euler e ingreso de datos 
 def openEulerWindow():  
 
-    newWindow = Toplevel(master) #cambiar nombres
+    newWindow = Toplevel(master) 
     newWindow.title("Método de Euler")     
-    newWindow.geometry("500x500") 
+    newWindow.geometry("600x500") 
     #Funcion para el método de euler             
     ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
     ingr_dat.grid(sticky=EW)
@@ -143,7 +153,7 @@ def openEulerWindow():
           text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
     funcion=StringVar()
     entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
-    entrada_funcion.insert(0,'(-2*(x**3))+12*(x**2)-(20*x)+8.5') #Valor
+    entrada_funcion.insert(0,'-2x^3+12x^2-20x+8.5') #Valor
     entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
     
     Label(ingr_dat, text="Ingrese el valor inicial de x" ,font=("Century gothic",10),bg="powder blue").grid(row=1,column=1,pady=3,padx=4)
@@ -177,8 +187,6 @@ def openEulerWindow():
     enviaBoton.grid(row=6,column=2,pady=3)
   #  text=Text(newWindow,height = 5, width = 52) #crear texto
 
-    
-    
 #Ventana para el método 2
 def openPtomedioWindow():    
 
@@ -322,23 +330,36 @@ def openRungeWindow():
 
 #Ventana principal
 #Leyenda 
-label = Label(master, text ="Seleccionar un método") 
+label = Label(master, text ="Calculadora numérica de EDOs \n de primer grado") 
 label.config(fg="black",    # Color letras
              bg="pink",   # Fondo
-             font=("Century gothic",15,"bold")
+             font=("Arial",16,"bold")
               )
-label.pack(pady=35)
+label.pack(pady=25)
+label2=Label(master, text='Este programa resuelve ecuaciones diferenciales ordinarias \n autónomas de primer grado, escritas en su forma canonica \n \n Selecciona el método:')
+label2.config(fg="black",    # Color letras
+             bg="pink",   # Fondo
+             font=("Arial",12)
+              )
+label2.pack(pady=10)
 #creación de botones
 botonEuler=Button(master,text="Método de Euler",command=openEulerWindow)
-botonEuler.config(bg="snow",font=("Century gothic",10))
-botonEuler.pack(pady=5)
+botonEuler.config(bg="snow",font=("Arial",13,"italic"))
+botonEuler.pack(pady=7)
 botonRunge=Button(master,text="Método de Runge-Kutta",command=openRungeWindow)
-botonRunge.config(bg="snow",font=("Century gothic",10))
-botonRunge.pack(pady=5)
+botonRunge.config(bg="snow",font=("Arial",13))
+botonRunge.pack(pady=7)
 botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWindow)
-botonPtomed.config(bg="snow",font=("Century gothic",10))
-botonPtomed.pack(pady=5)
-mainloop()
+botonPtomed.config(bg="snow",font=("Arial",13))
+botonPtomed.pack(pady=7)
+label2=Label(master, text='*Si la función tiene en su expresión algún polinomio,\n por favor ingrésalo en su forma más reducida')
+label2.config(fg="black",    # Color letras
+             bg="pink",   # Fondo
+             font=("Century gothic",10)
+              )
+label2.pack(side=BOTTOM)
 
+
+mainloop()
 
 
