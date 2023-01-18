@@ -33,10 +33,11 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
     #Mostrar los resultados como matriz con barra de de desplazamiento
     #crear una vista de arbol y una barra de desplazamiento
     treev = ttk.Treeview(window)
-    treev.pack(side ='left')
+    treev.pack(side =LEFT)
+
     #barra de desplazamiento
     barra=ttk.Scrollbar(window,orient="vertical",command=treev.yview)
-    barra.pack(side ='left', fill ='x')
+    barra.pack(side ='left')
     #configuracion del treeview
     treev.configure(xscrollcommand = barra.set)
     treev["columns"] = ("1", "2", "3") #Numero de columnas (i,x,y)
@@ -49,10 +50,12 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
     treev.heading("1", text ="i")
     treev.heading("2", text ="x")
     treev.heading("3", text ="y")
-    figure = plt.Figure(figsize=(2.5,2.5), dpi=100)
+    #Graficar
+    figure = plt.Figure(figsize=(3,2.3), dpi=100)
     ax = figure.add_subplot(111)
+    #ax.tick_params(axis='y', labelrotation = 90)
     grafica=FigureCanvasTkAgg(figure, window)
-    grafica.get_tk_widget().pack()
+    grafica.get_tk_widget().pack(side=LEFT,padx=25)
     if (xf<xi):
         messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
     if (h<=0):
@@ -62,19 +65,16 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
         nc=(xf-xi)/h
         nc=int(nc)
         for i in range(1,nc+1): 
-            y_num=y_num+float(expresion.subs(x,x_num))*h
+            y_num=y_num+float(sp.N(expresion.subs(x, x_num)))*h
             x_num=x_num+h
             x_num=round(x_num,2)
             y_num=round(y_num,3)
+            #print(x_num,y_num)
             #Imprimir resultados
             treev.insert("",'end',values=(i,x_num,y_num))
-            #fig=plt.plot(x_num,y_num,'-ok')
-             #  grafica.draw()
-             #  grafica.get_tk_widget().pack(fill=BOTH, expand=True)
-            #grafica.get_tk_widget().pack()
             ax.scatter(x_num, y_num)
             grafica.draw()
-    #plt.plot(x_num,y_num,'-ok',ax=ax)
+            
 #Método del punto medio y mostrar resultados
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
   #crear una vista de arbol y una barra de desplazamiento
@@ -119,19 +119,20 @@ def openEulerWindow():
 
     newWindow = Toplevel(master) 
     newWindow.title("Método de Euler")     
-    newWindow.geometry("600x500") 
-    #Funcion para el método de euler             
+    newWindow.geometry("650x500") 
+    newWindow.config(bg='powder blue')
+    #Frame de ingreso de datos             
     ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
-    ingr_dat.grid(sticky=EW)
-    for i in range(0,5):
-        ingr_dat.columnconfigure(i,weight=1)
-   # ingr_dat.columnconfigure(1, weight=1)
-   # ingr_dat.columnconfigure(1,weight=1)0
-
+    ingr_dat.pack()
+    #ingr_dat.grid(row=0,column=0,sticky=N)
+    #for i in range(0,5):
+     #   ingr_dat.columnconfigure(i,weight=1)
+   
+    #Mostrar resultados
     show_res=Frame(newWindow,bg='powder blue', pady=3, padx=15)
-    show_res.grid(sticky=EW)
-    for i in range(0,5):
-        show_res.columnconfigure(i,weight=1)
+    show_res.pack()
+    #for i in range(0,5):
+     #   show_res.columnconfigure(i,weight=1)
 
     def sendata():  
         #Obtener la información que se ingresa
@@ -330,7 +331,7 @@ def openRungeWindow():
 
 #Ventana principal
 #Leyenda 
-label = Label(master, text ="Calculadora numérica de EDOs \n de primer grado") 
+label = Label(master, text ="Calculadora numérica de EDOs \n de primer orden") 
 label.config(fg="black",    # Color letras
              bg="pink",   # Fondo
              font=("Arial",16,"bold")
@@ -347,19 +348,20 @@ botonEuler=Button(master,text="Método de Euler",command=openEulerWindow)
 botonEuler.config(bg="snow",font=("Arial",13,"italic"))
 botonEuler.pack(pady=7)
 botonRunge=Button(master,text="Método de Runge-Kutta",command=openRungeWindow)
-botonRunge.config(bg="snow",font=("Arial",13))
+botonRunge.config(bg="snow",font=("Arial",13,"italic"))
 botonRunge.pack(pady=7)
 botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWindow)
-botonPtomed.config(bg="snow",font=("Arial",13))
+botonPtomed.config(bg="snow",font=("Arial",13,"italic"))
 botonPtomed.pack(pady=7)
-label2=Label(master, text='*Si la función tiene en su expresión algún polinomio,\n por favor ingrésalo en su forma más reducida')
+label2=Label(master, text='*Si la función tiene en su expresión algún polinomio,\n ingrésalo en su forma más reducida')
 label2.config(fg="black",    # Color letras
              bg="pink",   # Fondo
-             font=("Century gothic",10)
+             font=("Arial",10)
               )
 label2.pack(side=BOTTOM)
 
 
 mainloop()
+
 
 
