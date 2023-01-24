@@ -29,15 +29,19 @@ def leer_string(cadena):
   return cadena
 
 #método de Euler y mostrar resultados
-def euler(window,x_num,y_num,h,xi,xf,expresion): 
+def mostrar_euler(window,x_num,y_num,h,xi,xf,expresion): 
     #Mostrar los resultados como matriz con barra de de desplazamiento
     #crear una vista de arbol y una barra de desplazamiento
+    
+    texto=Label(window, text ="Resultados",width=20,font=("Arial",17),bg="powder blue")
+    texto.grid(row=0,column=1,columnspan=4)
+
     treev = ttk.Treeview(window)
-    treev.pack(side =LEFT)
+    treev.grid(row=1,column=2,ipadx=15,pady=15,sticky=E)
 
     #barra de desplazamiento
     barra=ttk.Scrollbar(window,orient="vertical",command=treev.yview)
-    barra.pack(side ='left')
+    barra.grid(row=1,column=3,pady=15,sticky=W)
     #configuracion del treeview
     treev.configure(xscrollcommand = barra.set)
     treev["columns"] = ("1", "2", "3") #Numero de columnas (i,x,y)
@@ -55,7 +59,7 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
     ax = figure.add_subplot(111)
     #ax.tick_params(axis='y', labelrotation = 90)
     grafica=FigureCanvasTkAgg(figure, window)
-    grafica.get_tk_widget().pack(side=LEFT,padx=25)
+    grafica.get_tk_widget().grid(row=1,column=4,pady=15,padx=15)
     if (xf<xi):
         messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
     if (h<=0):
@@ -64,12 +68,20 @@ def euler(window,x_num,y_num,h,xi,xf,expresion):
         #Calculo de iteraciones
         nc=(xf-xi)/h
         nc=int(nc)
-        for i in range(1,nc+1): 
-            y_num=y_num+float(sp.N(expresion.subs(x, x_num)))*h
+        for i in range(1,nc+1):
+            try: 
+                y_num=y_num+float(sp.N(expresion.subs(x, x_num)))*h #Evaluación numerica
+            except:
+                #error = Toplevel(window)
+                #error.title('Error')
+                #texto_error=Label(error,text="La función no está definida en el intervalo")
+                #texto_error.pack()
+                messagebox.showinfo(message="La función no está definida en el intervalo ", title="Error")
+                
             x_num=x_num+h
             x_num=round(x_num,2)
             y_num=round(y_num,3)
-            #print(x_num,y_num)
+            
             #Imprimir resultados
             treev.insert("",'end',values=(i,x_num,y_num))
             ax.scatter(x_num, y_num)
@@ -124,15 +136,8 @@ def openEulerWindow():
     #Frame de ingreso de datos             
     ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
     ingr_dat.pack()
-    #ingr_dat.grid(row=0,column=0,sticky=N)
-    #for i in range(0,5):
-     #   ingr_dat.columnconfigure(i,weight=1)
    
     #Mostrar resultados
-    show_res=Frame(newWindow,bg='powder blue', pady=3, padx=15)
-    show_res.pack()
-    #for i in range(0,5):
-     #   show_res.columnconfigure(i,weight=1)
 
     def sendata():  
         #Obtener la información que se ingresa
@@ -147,8 +152,12 @@ def openEulerWindow():
         #print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
         xf_value=float(xf.get())
         xi_value=float(xi.get())
-        print(euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data))
+        show_res=Toplevel(newWindow)
+        show_res.geometry('650x300')
+        show_res.config(bg='powder blue')
+        mostrar_euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data)
     
+
     #Ingreso de datos 
     Label(ingr_dat,  
           text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
@@ -186,7 +195,7 @@ def openEulerWindow():
 
     enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
     enviaBoton.grid(row=6,column=2,pady=3)
-  #  text=Text(newWindow,height = 5, width = 52) #crear texto
+
 
 #Ventana para el método 2
 def openPtomedioWindow():    
@@ -205,6 +214,7 @@ def openPtomedioWindow():
 
     show_res=Frame(newWindow,bg='PaleGreen1', width = 500, height=500, pady=3, padx=15)
     show_res.grid(sticky=EW)
+
     for i in range(0,5):
         show_res.columnconfigure(i,weight=1)
         #show_res.columnconfigure(1,weight=1)
