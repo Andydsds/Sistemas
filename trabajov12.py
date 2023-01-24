@@ -57,9 +57,10 @@ def mostrar_euler(window,x_num,y_num,h,xi,xf,expresion):
     #Graficar
     figure = plt.Figure(figsize=(3,2.3), dpi=100)
     ax = figure.add_subplot(111)
-    #ax.tick_params(axis='y', labelrotation = 90)
+    #Posicionar la gráfica
     grafica=FigureCanvasTkAgg(figure, window)
     grafica.get_tk_widget().grid(row=1,column=4,pady=15,padx=15)
+    #Mensajes de error
     if (xf<xi):
         messagebox.showinfo(message="El valor de xi tiene que ser menor que xf ", title="Error")
     if (h<=0):
@@ -72,12 +73,7 @@ def mostrar_euler(window,x_num,y_num,h,xi,xf,expresion):
             try: 
                 y_num=y_num+float(sp.N(expresion.subs(x, x_num)))*h #Evaluación numerica
             except:
-                #error = Toplevel(window)
-                #error.title('Error')
-                #texto_error=Label(error,text="La función no está definida en el intervalo")
-                #texto_error.pack()
-                messagebox.showinfo(message="La función no está definida en el intervalo ", title="Error")
-                
+                messagebox.showinfo(message="La función no está definida en el intervalo ", title="Error") 
             x_num=x_num+h
             x_num=round(x_num,2)
             y_num=round(y_num,3)
@@ -86,7 +82,80 @@ def mostrar_euler(window,x_num,y_num,h,xi,xf,expresion):
             treev.insert("",'end',values=(i,x_num,y_num))
             ax.scatter(x_num, y_num)
             grafica.draw()
-            
+
+#Ingreso de datos Euler
+def ingreso_euler():  
+    #Generar una nueva ventana de ingreso de datos
+    newWindow = Toplevel(master) 
+    newWindow.title("Método de Euler")     
+    newWindow.geometry("500x300") 
+    newWindow.config(bg='powder blue')
+    #Frame de ingreso de datos             
+    ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
+    ingr_dat.pack()
+   
+    #Función para obtener la información ingresada
+    def sendata():  
+        funcion_data=str(funcion.get()) 
+        #Convertir string a un formato matemático
+        funcion_data=leer_string(funcion_data)
+        #convertir la función en un objeto matemático 
+        funcion_data = sympify(funcion_data) 
+        xinitial_value=float(xinitial.get())
+        yinitial_value=float(yinitial.get())
+        h_value=float(h.get())
+        xf_value=float(xf.get())
+        xi_value=float(xi.get())
+        show_res=Toplevel(newWindow)
+        show_res.geometry('650x300')
+        show_res.config(bg='powder blue')
+        mostrar_euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data)
+    
+    #Etiquetas de ingreso de datos y entradas
+    Label(ingr_dat,  
+          text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
+    funcion=StringVar()
+    entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
+    entrada_funcion.insert(0,'-2x^3+12x^2-20x+8.5') #Función predeterminada
+    entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
+    
+    Label(ingr_dat, text="Ingrese el valor inicial de x" ,font=("Century gothic",10),bg="powder blue").grid(row=1,column=1,pady=3,padx=4)
+    xinitial=DoubleVar()
+    entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
+    entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
+
+    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="powder blue").grid(row=2,column=1,pady=3,padx=4)
+    yinitial=DoubleVar()
+    entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
+    entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
+    
+    Label(ingr_dat, text="Ingrese h",font=("Century gothic",10),bg="powder blue").grid(row=3,column=1,pady=3,padx=4)
+    h=DoubleVar()
+    entrada_h=Entry(ingr_dat,textvariable=h,width=20)
+    entrada_h.insert(2,1)  #Valor predeterminado
+    entrada_h.grid(row=3,column=2,pady=3,padx=4)
+
+    Label(ingr_dat, text="Ingrese xi",font=("Century gothic",10),bg="powder blue").grid(row=4,column=1,pady=3,padx=4)
+    xi=DoubleVar()
+    entrada_xi=Entry(ingr_dat,textvariable=xi,width=20)
+    entrada_xi.grid(row=4,column=2,pady=3,padx=4)
+
+    Label(ingr_dat, text="Ingrese xf",font=("Century gothic",10),bg="powder blue").grid(row=5,column=1,pady=3,padx=4)
+    xf=DoubleVar()
+    entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
+    entrada_xf.insert(1,1) #valor predeterminado
+    entrada_xf.grid(row=5,column=2,pady=3,padx=4)
+
+    enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
+    enviaBoton.grid(row=6,column=2,pady=3)
+    #Texto como nota 
+    label2=Label(ingr_dat, text='*Si la función tiene en su expresión algún polinomio,\n ingrésalo en su forma más reducida')
+    label2.config(fg="black",    # Color letras
+             bg="powder blue",   # Fondo
+             font=("Calibri Light",10)
+              )
+    label2.grid(row=7,column=1,columnspan=2,pady=15)
+
 #Método del punto medio y mostrar resultados
 def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
   #crear una vista de arbol y una barra de desplazamiento
@@ -125,77 +194,6 @@ def pto_medio(window,x_num,y_num,h,xi,xf,expresion):
         y_num=round(y_num, 3)
         #Imprimir resultados
         treev.insert("",'end',values=(i,x_num,y_num))
-
-#Pestaña metodo euler e ingreso de datos 
-def openEulerWindow():  
-
-    newWindow = Toplevel(master) 
-    newWindow.title("Método de Euler")     
-    newWindow.geometry("650x500") 
-    newWindow.config(bg='powder blue')
-    #Frame de ingreso de datos             
-    ingr_dat=Frame(newWindow,bg='powder blue', pady=3, padx=15)
-    ingr_dat.pack()
-   
-    #Mostrar resultados
-
-    def sendata():  
-        #Obtener la información que se ingresa
-        funcion_data=str(funcion.get()) 
-        #Convertir string a un formato matemático
-        funcion_data=leer_string(funcion_data)
-        #convertir la función en un objeto matemático 
-        funcion_data = sympify(funcion_data) 
-        xinitial_value=float(xinitial.get())
-        yinitial_value=float(yinitial.get())
-        h_value=float(h.get())
-        #print("inicial valor de x y tipo",xinitial_value,type(xinitial_value))
-        xf_value=float(xf.get())
-        xi_value=float(xi.get())
-        show_res=Toplevel(newWindow)
-        show_res.geometry('650x300')
-        show_res.config(bg='powder blue')
-        mostrar_euler(show_res,xinitial_value,yinitial_value,h_value,xi_value,xf_value,funcion_data)
-    
-
-    #Ingreso de datos 
-    Label(ingr_dat,  
-          text ="Ingrese la ecuación",width=20,font=("Century gothic",10),bg="powder blue").grid(row=0,column=1,pady=3,padx=4)
-    funcion=StringVar()
-    entrada_funcion=Entry(ingr_dat,textvariable=funcion,width=20)
-    entrada_funcion.insert(0,'-2x^3+12x^2-20x+8.5') #Valor
-    entrada_funcion.grid(row=0,column=2,pady=3,padx=4)
-    
-    Label(ingr_dat, text="Ingrese el valor inicial de x" ,font=("Century gothic",10),bg="powder blue").grid(row=1,column=1,pady=3,padx=4)
-    xinitial=DoubleVar()
-    entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
-    entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
-
-    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="powder blue").grid(row=2,column=1,pady=3,padx=4)
-    yinitial=DoubleVar()
-    entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
-    entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
-    
-    Label(ingr_dat, text="Ingrese h",font=("Century gothic",10),bg="powder blue").grid(row=3,column=1,pady=3,padx=4)
-    h=DoubleVar()
-    entrada_h=Entry(ingr_dat,textvariable=h,width=20)
-    entrada_h.insert(2,1)    
-    entrada_h.grid(row=3,column=2,pady=3,padx=4)
-
-    Label(ingr_dat, text="Ingrese xi",font=("Century gothic",10),bg="powder blue").grid(row=4,column=1,pady=3,padx=4)
-    xi=DoubleVar()
-    entrada_xi=Entry(ingr_dat,textvariable=xi,width=20)
-    entrada_xi.grid(row=4,column=2,pady=3,padx=4)
-
-    Label(ingr_dat, text="Ingrese xf",font=("Century gothic",10),bg="powder blue").grid(row=5,column=1,pady=3,padx=4)
-    xf=DoubleVar()
-    entrada_xf=Entry(ingr_dat,textvariable=xf,width=20)
-    entrada_xf.insert(1,1) #valor predeterminado
-    entrada_xf.grid(row=5,column=2,pady=3,padx=4)
-
-    enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
-    enviaBoton.grid(row=6,column=2,pady=3)
-
 
 #Ventana para el método 2
 def openPtomedioWindow():    
@@ -338,38 +336,38 @@ def openRungeWindow():
 
     enviaBoton=Button(ingr_dat,text="Enviar",command=sendata)
     enviaBoton.grid(row=6,column=2,pady=3)
+    
+    label2=Label(master, text='*Si la función tiene en su expresión algún polinomio,\n ingrésalo en su forma más reducida')
+    label2.config(fg="black",    # Color letras
+             bg="pink",   # Fondo
+             font=("Calibri Light",10)
+              )
+    label2.pack(side=BOTTOM)
 
 #Ventana principal
-#Leyenda 
+#Leyendas
 label = Label(master, text ="Calculadora numérica de EDOs \n de primer orden") 
 label.config(fg="black",    # Color letras
              bg="pink",   # Fondo
-             font=("Arial",16,"bold")
+             font=("Calibri Light",16,"bold")
               )
 label.pack(pady=25)
-label2=Label(master, text='Este programa resuelve ecuaciones diferenciales ordinarias \n autónomas de primer grado, escritas en su forma canonica \n \n Selecciona el método:')
+label2=Label(master, text='Este programa resuelve ecuaciones diferenciales ordinarias de primer grado,\n de la forma y´=f(x) mediante 3 métodos numéricos distintos \n \nSelecciona el método:')
 label2.config(fg="black",    # Color letras
              bg="pink",   # Fondo
-             font=("Arial",12)
+             font=("Calibri Light",13)
               )
-label2.pack(pady=10)
-#creación de botones
-botonEuler=Button(master,text="Método de Euler",command=openEulerWindow)
-botonEuler.config(bg="snow",font=("Arial",13,"italic"))
+label2.pack(pady=9)
+#creación de botones de ventana principal
+botonEuler=Button(master,text="Método de Euler",command=ingreso_euler)
+botonEuler.config(bg="snow",font=("Calibri Light",13,"italic"))
 botonEuler.pack(pady=7)
 botonRunge=Button(master,text="Método de Runge-Kutta",command=openRungeWindow)
-botonRunge.config(bg="snow",font=("Arial",13,"italic"))
+botonRunge.config(bg="snow",font=("Calibri Light",13,"italic"))
 botonRunge.pack(pady=7)
 botonPtomed=Button(master,text="Método del Punto medio",command=openPtomedioWindow)
-botonPtomed.config(bg="snow",font=("Arial",13,"italic"))
+botonPtomed.config(bg="snow",font=("Calibri Light",13,"italic"))
 botonPtomed.pack(pady=7)
-label2=Label(master, text='*Si la función tiene en su expresión algún polinomio,\n ingrésalo en su forma más reducida')
-label2.config(fg="black",    # Color letras
-             bg="pink",   # Fondo
-             font=("Arial",10)
-              )
-label2.pack(side=BOTTOM)
-
 
 mainloop()
 
