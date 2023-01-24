@@ -124,7 +124,7 @@ def ingreso_euler():
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="powder blue").grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de y",font=("Century gothic",10),bg="powder blue").grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
@@ -254,7 +254,7 @@ def ingreso_ptomedio():
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="PaleGreen1").grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de y",font=("Century gothic",10),bg="PaleGreen1").grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
@@ -334,7 +334,7 @@ def openRungeWindow():
     entrada_xinitial=Entry(ingr_dat,textvariable=xinitial,width=20)
     entrada_xinitial.grid(row=1,column=2,pady=3,padx=4)
 
-    Label(ingr_dat, text="Ingrese el valor inivial de y",font=("Century gothic",10),bg="antique white" ).grid(row=2,column=1,pady=3,padx=4)
+    Label(ingr_dat, text="Ingrese el valor inicial de y",font=("Century gothic",10),bg="antique white" ).grid(row=2,column=1,pady=3,padx=4)
     yinitial=DoubleVar()
     entrada_yinitial=Entry(ingr_dat,textvariable=yinitial,width=20)
     entrada_yinitial.grid(row=2,column=2,pady=3,padx=4)
